@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import './App.css'
 import ZoneLineChart from './components/ZoneLineChart'
-import ZonePieChart from './components/ZoneBarChart';
+import ZoneBarChart from './components/ZoneBarChart';
 import { safeJsonFetch } from './utils/safeFetch';
 function App() {
   const [zones, setZones] = useState([])
@@ -26,23 +26,34 @@ function App() {
 
     return `${month}-${day}-${year} ${hours}:${minutes}:${seconds}`;
   }
-  console.log(durations)
-  const fetchZones = () => {
-    let zoneHistoryData = { "time": formatDate(new Date()) };
-    let zoneDurationData = [];
-    safeJsonFetch("http://localhost:8080/zones")
 
+  const fetchZones = () => {
+    const timestamp = formatDate(new Date());
+    const zoneHistoryData = { time: timestamp };
+    const zoneDurationData = [];
+
+    safeJsonFetch("http://localhost:8080/zones")
       .then(data => {
+        if (!Array.isArray(data)) return;
+
         setZones(data);
-        data?.forEach(zone => {
+
+        data.forEach(zone => {
           zoneHistoryData[zone.zoneId] = zone.currentGuestCount;
-          zoneDurationData.push({"zone": zone.zoneId, "lowValue": zone.lowestDuration, "value": zone.averageDuration});
-          
+          zoneDurationData.push({
+            zone: zone.zoneId,
+            lowValue: zone.lowestDuration,
+            value: zone.averageDuration,
+          });
         });
+
         setDurations(zoneDurationData);
-        setZoneHistory(prevArr => [...prevArr, zoneHistoryData])
+        setZoneHistory(prev => [...prev, zoneHistoryData]);
       })
-  }
+      .catch(error => {
+        console.error("Error fetching zones:", error);
+      });
+  };
 
   const fetchGuests = () => {
     safeJsonFetch("http://localhost:8080/guests")
@@ -105,9 +116,9 @@ function App() {
           'Content-Type': 'application/json',
         },
       })
-        .then(response => {
+        .then(data => {
           setTimeout(() => {
-            setJsonResponse(`Status: ${response.status}`);
+            setJsonResponse(`Status: ${data.status}`);
           }, 5000);
         })
         .catch(err => {
@@ -118,20 +129,29 @@ function App() {
   }
 
   const moveGuests = () => {
-    fetch(`http://localhost:8080/guests/simulate-move`, {
+    safeJsonFetch(`http://localhost:8080/guests/simulate-move`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-    }).then(response => {
+    }).then(data => {
       setTimeout(() => {
-        setJsonResponse(`Status: ${response.status}`);
+        setJsonResponse(`Status: ${data.status}`);
       }, 5000);
     })
       .catch(err => {
         console.error("Moving guests failed:", err);
         setJsonResponse("Error moving guests");
       });
+  }
+
+  const addGuest = () => {
+    fetch(`http://localhost:8080/guests/add-guest`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(response => { return response.text(); }).then(data => console.log(data))
   }
 
 
@@ -164,26 +184,29 @@ function App() {
           </div>
           <div>
             {isFetching ? <button onClick={stopFetching}>Stop Stream</button> : <button onClick={startFetching}>Start Stream</button>}
-
-            <h3>Click on a zone above to view it's occupancy status, average stay time, move guests around, or change a zone's capacity</h3>
-            {selectedZone && <div className='button-container'>
-              <button onClick={getOccupancyInfo}>View Occupancy Status</button>
-              <button onClick={getAverageStay}>View Average Stay Time</button>
+            <h3>Click on a zone above to view it's occupancy status, average stay time, or change it's capacity</h3>
+            <div className='button-container'>
+              <button onClick={addGuest}>Add New Guest</button>
               <button onClick={moveGuests}>Move Guests</button>
-              <input onKeyDown={changeZoneCapacity} placeholder='Press enter to change cap' />
+              {selectedZone && (
+                <>
+                  <button onClick={getOccupancyInfo}>View Occupancy Status</button>
+                  <button onClick={getAverageStay}>View Average Stay Time</button>
+                  <input onKeyDown={changeZoneCapacity} placeholder='Press enter to change cap' />
+                </>)}
 
-            </div>}
+            </div>
             <p>{jsonResponse}</p>
           </div>
         </nav>
       </header>
       <section className='main-body'>
         <div className='chart-container'>
-          <div style={{ width: 1000, height: 475 }}>
+          <div style={{ width: "100%", height: "100%" }}>
             <ZoneLineChart data={zoneHistory} />
           </div>
-          <div style={{ width: 1000, height: 475 }}>
-            <ZonePieChart data={durations} />
+          <div style={{ width: "100%", height: "100%" }}>
+            <ZoneBarChart data={durations} />
           </div>
         </div>
         <div>

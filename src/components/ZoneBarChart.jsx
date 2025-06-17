@@ -12,12 +12,10 @@ export default class ZoneBarChart extends PureComponent {
       "#DA70D6", "#48D1CC", "#FFA500", "#8A2BE2", "#00CED1",
       "#FF6347", "#20B2AA", "#00BFFF"
     ];
-    function getRandomColor() {
-      const index = Math.floor(Math.random() * colors.length);
-      return colors[index];
-    }
     return (
-      <ResponsiveContainer width="100%" height="100%">
+      <>
+      <h2>Low and Average Duration in Each Zone</h2>
+      <ResponsiveContainer width={1200} height={550}>
         <BarChart
           width={500}
           height={300}
@@ -47,6 +45,7 @@ export default class ZoneBarChart extends PureComponent {
           />
         </BarChart>
       </ResponsiveContainer>
+      </>
     );
   }
 }

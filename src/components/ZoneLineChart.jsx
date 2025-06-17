@@ -27,9 +27,9 @@ export default function ZoneLineChart({ data }) {
       <div
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
-        style={{ width: '100%', height: 500 }}
+        style={{ width: '100%', height: "100%" }}
       >
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width={1200} height={550}>
           <LineChart
             data={displayData}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}

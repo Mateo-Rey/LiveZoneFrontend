@@ -16,7 +16,7 @@ function Home() {
       headers: {
         "Content-Type": "application/json",
       },body: JSON.stringify(zones)
-    });
+    }).then((response) => {if (response.status == 200) setZonesLoaded(true)})
   };
 
   const handleKeyDown = (e, zone) => {
@@ -128,6 +128,9 @@ function Home() {
           </div>
           <button onClick={submit} className="submit">
             Add All Zones
+          </button>
+           <button onClick={() => setZonesLoaded(true)} className="submit">
+            Skip to Dashboard
           </button>
         </div>
       )}

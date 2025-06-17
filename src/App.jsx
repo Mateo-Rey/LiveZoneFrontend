@@ -41,7 +41,7 @@ function App() {
         setZones(data);
 
         data.forEach((zone) => {
-          zoneHistoryData[zone.zoneId] = zone.currentGuestCount;
+          zoneHistoryData[zone.zoneName] = zone.currentGuestCount;
           zoneDurationData.push({
             zone: zone.zoneId,
             lowValue: zone.lowestDuration,
@@ -193,11 +193,11 @@ function App() {
                   onClick={() => setSelectedZone(zone.zoneId)}
                   className={
                     "info-card" +
-                    (index + 1 == selectedZone ? " active-card" : "")
+                    (zone.zoneId == selectedZone ? " active-card" : "")
                   }
                 >
-                  <h3>{zone.zoneName}</h3>
-                  <p>{"Zone" + " " + zone.zoneId}</p>
+                  <h3>{zone.zoneId}</h3>
+                  <p>{"Zone" + " " + zone.zoneName}</p>
                   <div style={{ display: "flex", alignSelf: "center" }}>
                     <div className={`status-dot ${zone.status}`}></div>{" "}
                     <p style={{ display: "flex", alignSelf: "center" }}>
@@ -210,7 +210,7 @@ function App() {
             <div className="info-container">
               {guests?.map((guest) => (
                 <div key={guest.guestId} className="info-card">
-                  <h3>{guest.guestId}</h3>
+                  <h3>{guest.currentZoneId}</h3>
                 </div>
               ))}
             </div>
@@ -269,7 +269,7 @@ function App() {
           <div className="hotspots-container">
             {hotspots?.map((hotspot) => (
               <div key={hotspot.zoneId} className="hotspot-card">
-                <p>{hotspot.name}</p>
+                <p>Zone {hotspot.zoneName}</p>
                 <p>{hotspot.zoneId}</p>
                 <div
                   className={`hotspot-block ${

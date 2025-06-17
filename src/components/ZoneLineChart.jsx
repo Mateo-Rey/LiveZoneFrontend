@@ -7,7 +7,6 @@ import {
 export default function ZoneLineChart({ data }) {
   const [displayData, setDisplayData] = useState([]);
   const [isPaused, setIsPaused] = useState(false);
-
   useEffect(() => {
     if (!isPaused) {
       setDisplayData(data);

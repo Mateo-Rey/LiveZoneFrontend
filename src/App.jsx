@@ -3,6 +3,7 @@ import "./App.css";
 import ZoneLineChart from "./components/ZoneLineChart";
 import ZoneBarChart from "./components/ZoneBarChart";
 import { safeJsonFetch } from "./utils/safeFetch";
+import ParkHeatmap from "./components/ParkHeatmap";
 function App() {
   const [zones, setZones] = useState([]);
   const [guests, setGuests] = useState([]);
@@ -36,10 +37,7 @@ function App() {
 
     safeJsonFetch("http://localhost:8080/zones")
       .then((data) => {
-        if (!Array.isArray(data)) return;
-
         setZones(data);
-
         data.forEach((zone) => {
           zoneHistoryData[zone.zoneName] = zone.currentGuestCount;
           zoneDurationData.push({
@@ -196,8 +194,8 @@ function App() {
                     (zone.zoneId == selectedZone ? " active-card" : "")
                   }
                 >
-                  <h3>{zone.zoneId}</h3>
-                  <p>{"Zone" + " " + zone.zoneName}</p>
+                  <h3>{zone.zoneName}</h3>
+                  <p>{"Zone" + " " + zone.zoneId}</p>
                   <div style={{ display: "flex", alignSelf: "center" }}>
                     <div className={`status-dot ${zone.status}`}></div>{" "}
                     <p style={{ display: "flex", alignSelf: "center" }}>
@@ -210,11 +208,13 @@ function App() {
             <div className="info-container">
               {guests?.map((guest) => (
                 <div key={guest.guestId} className="info-card">
-                  <h3>{guest.currentZoneId}</h3>
+                  <h3>In Zone {guest.currentZoneId}</h3>
+                  <p>{guest.guestId}</p>
                 </div>
               ))}
             </div>
           </div>
+
           <div>
             {isFetching ? (
               <button onClick={stopFetching}>Stop Stream</button>
@@ -226,8 +226,6 @@ function App() {
               time, or change it's capacity
             </h3>
             <div className="button-container">
-              <button onClick={addGuest}>Add New Guest</button>
-              <button onClick={moveGuests}>Move Guests</button>
               {selectedZone && (
                 <>
                   <button onClick={getOccupancyInfo}>
@@ -269,8 +267,8 @@ function App() {
           <div className="hotspots-container">
             {hotspots?.map((hotspot) => (
               <div key={hotspot.zoneId} className="hotspot-card">
-                <p>Zone {hotspot.zoneName}</p>
-                <p>{hotspot.zoneId}</p>
+                <p>Zone {hotspot.zoneId}</p>
+                <p>{hotspot.zoneName}</p>
                 <div
                   className={`hotspot-block ${
                     hotspot.status === "FULL"
@@ -287,6 +285,9 @@ function App() {
           </div>
         </div>
       </section>
+      <button onClick={addGuest}>Add New Guest</button>
+      <button onClick={moveGuests}>Move Guests</button>
+      <ParkHeatmap zoneData={zones} guestData={guests} />
     </>
   );
 }

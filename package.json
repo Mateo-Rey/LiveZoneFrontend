@@ -10,9 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "heatmap.js": "^2.0.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-force-graph-2d": "^1.27.1",
+    "react-konva": "^19.0.6",
     "recharts": "^2.15.3",
+    "use-image": "^1.1.4",
     "uuid": "^11.1.0"
   },
   "devDependencies": {

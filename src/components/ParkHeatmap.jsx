@@ -12,8 +12,8 @@ const SHAPES = {
   "Splash Zone": { x: 1200, y: 500 },
 };
 
-const ZONE_RADIUS = 70;
-const GUEST_RADIUS = 6;
+const ZONE_RADIUS = 120;
+const GUEST_RADIUS = 8;
 const ORBIT_RADIUS = 35;
 const ORBIT_SPEED = 0.015;
 

@@ -10,14 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "heatmap.js": "^2.0.5",
+    "@tailwindcss/vite": "^4.1.10",
+    "heatmap.js": "https://github.com/ionata/heatmap.js.git",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-force-graph-2d": "^1.27.1",
     "react-konva": "^19.0.6",
     "recharts": "^2.15.3",
+    "tailwindcss": "^4.1.10",
     "use-image": "^1.1.4",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "webgl-heatmap": "^0.2.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

@@ -4,6 +4,7 @@ import ZoneLineChart from "./components/ZoneLineChart";
 import ZoneBarChart from "./components/ZoneBarChart";
 import { safeJsonFetch } from "./utils/safeFetch";
 import ParkHeatmap from "./components/ParkHeatmap";
+import ParkDashboard from "./components/ParkDashboard";
 function App() {
   const [zones, setZones] = useState([]);
   const [guests, setGuests] = useState([]);
@@ -142,7 +143,7 @@ function App() {
   };
 
   const moveGuests = () => {
-    fetch(`http://localhost:8080/guests/simulate-move`, {
+    fetch(`http://localhost:8080/guests/simulateMove`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -166,8 +167,10 @@ function App() {
       });
   };
 
+  
+
   const addGuest = () => {
-    fetch(`http://localhost:8080/guests/add-guest`, {
+    fetch(`http://localhost:8080/guests/addGuest`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -284,10 +287,24 @@ function App() {
             ))}
           </div>
         </div>
+        <div
+          style={{
+            display: "flex",
+            alignSelf: "center",
+            marginBottom: "10px",
+            gap: "10px",
+          }}
+        >
+          <button style={{ width: "200px" }} onClick={addGuest}>
+            Add New Guest
+          </button>
+          <button style={{ width: "200px" }} onClick={moveGuests}>
+            Move Guests
+          </button>
+          
+        </div>
+        <ParkDashboard zoneData={zones} guestData={guests} />
       </section>
-      <button onClick={addGuest}>Add New Guest</button>
-      <button onClick={moveGuests}>Move Guests</button>
-      <ParkHeatmap zoneData={zones} guestData={guests} />
     </>
   );
 }

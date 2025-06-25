@@ -14,9 +14,13 @@ function App() {
   const [zoneHistory, setZoneHistory] = useState([]);
   const [durations, setDurations] = useState([]);
   const intervalRef = useRef(null);
-  const [isFetching, setIsFetching] = useState(false);
   const [occupancyData, setOccupancyData] = useState();
   const [averageStay, setAverageStay] = useState();
+  const [paused, setPaused] = useState(false);
+  const pausedRef = useRef(paused);
+  useEffect(() => {
+  pausedRef.current = paused;
+}, [paused]);
   function formatDate(date) {
     const pad = (n) => n.toString().padStart(2, "0");
 
@@ -39,6 +43,7 @@ function App() {
     safeJsonFetch("http://localhost:8080/zones")
       .then((data) => {
         setZones(data);
+        if (!pausedRef.current) {
         data.forEach((zone) => {
           zoneHistoryData[zone.zoneName] = zone.currentGuestCount;
           zoneDurationData.push({
@@ -50,6 +55,7 @@ function App() {
 
         setDurations(zoneDurationData);
         setZoneHistory((prev) => [...prev, zoneHistoryData]);
+      }
       })
       .catch((error) => {
         console.error("Error fetching zones:", error);
@@ -82,7 +88,7 @@ function App() {
         fetchGuests();
         fetchHotspots();
       }, 1000);
-      setIsFetching(true);
+      
       console.log("Started fetching zone data");
     }
   };
@@ -90,7 +96,6 @@ function App() {
   const stopFetching = () => {
     clearInterval(intervalRef.current);
     intervalRef.current = null;
-    setIsFetching(false);
     console.log("Stopped fetching zone data");
   };
 
@@ -219,10 +224,10 @@ function App() {
           </div>
 
           <div>
-            {isFetching ? (
-              <button onClick={stopFetching}>Stop Stream</button>
+            {paused ? (
+              <button onClick={() => setPaused(!paused)}>Start Chart Stream</button>
             ) : (
-              <button onClick={startFetching}>Start Stream</button>
+              <button onClick={() => setPaused(!paused)}>Pause Chart Stream</button>
             )}
             <h3>
               Click on a zone above to view it's occupancy status, average stay

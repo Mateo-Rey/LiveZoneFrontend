@@ -720,7 +720,7 @@ export default function ParkHeatmap({ guestData = [], zoneData = [] }) {
         }}
       >
         <div style={{ marginBottom: 8, fontWeight: "bold" }}>
-          🌡️ Crowd Density
+          🌡️ Relative Crowd Density
         </div>
         <div
           style={{

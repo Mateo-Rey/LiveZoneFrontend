@@ -268,7 +268,6 @@ input:focus {
 }
 
 .zone-header {
-  
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
 }
@@ -297,9 +296,38 @@ input:focus {
   background: rgb(44, 133, 68) !important;
 }
 
-
 .guest-info {
   margin-top: 0.5rem;
   font-size: 0.85rem;
   color: #ddd;
+}
+
+.progressbar-container {
+  width: 80%;
+  height: 20px;
+  background-color: #e0e0e0;
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+  margin: 0 auto;
+}
+
+.progress-bar {
+  height: 100%;
+  transition: width 0.1s linear;
+}
+.label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+}
+.guest-id {
+  font-size: large;
+  font-weight: 500;
+}
+.guest-row p {
+  color: white !important;
 }

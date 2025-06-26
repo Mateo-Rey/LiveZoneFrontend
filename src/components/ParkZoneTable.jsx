@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { GuestTTLBar } from "./GuestTTLBar";
+import ZoneTable from "./ZoneTable";
 
 function ParkZoneTable({ zoneData, guestData }) {
   const [selectedGuest, setSelectedGuest] = useState(null);
@@ -8,7 +8,9 @@ function ParkZoneTable({ zoneData, guestData }) {
   // Remove guests from movingGuests if they no longer exist in guestData
   useEffect(() => {
     const currentGuestIds = new Set(guestData.map((g) => g.guestId));
-    setMovingGuests((prev) => prev.filter((g) => currentGuestIds.has(g.guestId)));
+    setMovingGuests((prev) =>
+      prev.filter((g) => currentGuestIds.has(g.guestId))
+    );
   }, [guestData]);
 
   const moveSelectedGuest = () => {
@@ -36,19 +38,11 @@ function ParkZoneTable({ zoneData, guestData }) {
     if (checked) {
       setMovingGuests((prev) => [...prev, guest]);
     } else {
-      setMovingGuests((prev) => prev.filter((g) => g.guestId !== guest.guestId));
+      setMovingGuests((prev) =>
+        prev.filter((g) => g.guestId !== guest.guestId)
+      );
     }
   };
-
-  // Group guests by their currentZoneId
-  const guestsByZone = guestData.reduce((acc, guest) => {
-    const zoneId = guest.currentZoneId;
-    if (!acc[zoneId]) {
-      acc[zoneId] = [];
-    }
-    acc[zoneId].push(guest);
-    return acc;
-  }, {});
 
   return (
     <>
@@ -60,7 +54,11 @@ function ParkZoneTable({ zoneData, guestData }) {
           marginBottom: "10px",
         }}
       >
-        <button style={{ width: "200px" }} onClick={moveSelectedGuest} disabled={!selectedGuest}>
+        <button
+          style={{ width: "200px" }}
+          onClick={moveSelectedGuest}
+          disabled={!selectedGuest}
+        >
           Move Selected Guest
         </button>
         <button
@@ -72,51 +70,16 @@ function ParkZoneTable({ zoneData, guestData }) {
         </button>
       </div>
       <div className="table-container">
-        {zoneData.map((zone) => {
-          const guestsInZone = guestsByZone[zone.zoneId] || [];
-
-          return (
-            <div key={zone.zoneId} className="zone-card">
-              <strong className="zone-header">{zone.zoneName}</strong>
-
-              <ul className="guest-list">
-                {guestsInZone.map((guest, index) => (
-                  <li
-                    key={guest.guestId}
-                    tabIndex={index}
-                    className={`guest-row ${
-                      selectedGuest?.guestId === guest.guestId ? "selected" : ""
-                    }`}
-                    onClick={() => setSelectedGuest(guest)}
-                  >
-                    <div style={{ display: "flex", gap: "10px" }}>
-                      <input
-                        value={guest.guestId}
-                        checked={movingGuests.some((g) => g.guestId === guest.guestId)}
-                        onChange={(e) => handleCheckboxChange(e, guest)}
-                        type="checkbox"
-                      />
-                      <p className="guest-id">{guest.guestId}</p>
-                    </div>
-                    <GuestTTLBar
-                      duration={guest.timeToLive}
-                      timeAlive={guest.timeAlive}
-                    />
-                    {selectedGuest?.guestId === guest.guestId && (
-                      <div className="guest-info">
-                        <strong>Time Alive:</strong> {guest.timeAlive}s
-                        <br />
-                        <strong>Time in Zone:</strong> {guest.timeInZone}s
-                        <br />
-                        <strong>TTL:</strong> {guest.timeToLive}s
-                      </div>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
+        {zoneData.map((zone) => (
+          <ZoneTable
+            zone={zone}
+            guestData={guestData}
+            movingGuests={movingGuests}
+            selectedGuest={selectedGuest}
+            setSelectedGuest={setSelectedGuest}
+            handleCheckboxChange={handleCheckboxChange}
+          />
+        ))}
       </div>
     </>
   );

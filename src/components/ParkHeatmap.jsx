@@ -21,12 +21,9 @@ const HEATMAP_FPS = 60;
 const ZONE_POSITIONS = {
   "Thunder Coaster": { x: 180, y: 180 },
   "Food Court": { x: 650, y: 550 },
-  "Splash Zone": { x: 1150, y: 450 },
+  "Splash Zone": { x: 1250, y: 550 },
   "Leaning Tower": { x: 250, y: 750 },
   Teacups: { x: 950, y: 750 },
-  "Gift Shop": { x: 450, y: 200 },
-  Restrooms: { x: 750, y: 300 },
-  "First Aid": { x: 350, y: 500 },
 };
 
 export default function ParkHeatmap({ guestData = [], zoneData = [] }) {

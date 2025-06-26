@@ -108,34 +108,6 @@ function App() {
 
     e.target.value = ""; // clear input after submit
   };
-
-  // Move guests simulation
-  const moveGuests = () => {
-    fetch(`http://localhost:8080/guests/simulateMove`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((response) => {
-        setJsonResponse(`Status for moving guests: ${response.status}`);
-        setTimeout(() => setJsonResponse(""), 5000);
-      })
-      .catch((err) => {
-        console.error("Moving guests failed:", err);
-        setJsonResponse("Error moving guests");
-        setTimeout(() => setJsonResponse(""), 5000);
-      });
-  };
-
-  // Add new guest
-  const addGuest = () => {
-    fetch(`http://localhost:8080/guests/addGuest`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((response) => response.text())
-      .then(console.log);
-  };
-
   return (
     <>
       <header>

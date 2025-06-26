@@ -1,11 +1,10 @@
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { ParkDataProvider } from "../context/ParkDataContext";
 
 export const Route = createRootRoute({
   component: () => (
     <ParkDataProvider>
-      <div className="p-2 flex gap-10">
+      <div style={{display:"flex", padding: "20px", gap:"10px", justifyContent:"center", background: "rgb(10,10,10)", width: "150px", margin: "10px auto", borderRadius: "5px"}}>
         <Link to="/" className="[&.active]:font-bold">
           Home
         </Link>
@@ -13,7 +12,7 @@ export const Route = createRootRoute({
           Heatmap
         </Link>
       </div>
-      <hr />
+     
       <Outlet />
       
     </ParkDataProvider>

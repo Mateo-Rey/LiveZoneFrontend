@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
 import { safeJsonFetch } from "../utils/safeFetch";
 
 const ParkDataContext = createContext();
@@ -16,7 +22,6 @@ export function ParkDataProvider({ children }) {
   }, [paused]);
 
   const fetchZones = () => {
-    if (pausedRef.current) return;
     safeJsonFetch("http://localhost:8080/zones")
       .then(setZones)
       .catch(console.error);

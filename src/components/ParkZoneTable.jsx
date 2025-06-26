@@ -33,6 +33,18 @@ function ParkZoneTable({ zoneData, guestData }) {
       .then((data) => console.log(data));
   };
 
+  const removeMultipleGuests = () => {
+    fetch(`http://localhost:8080/guests/removeMultipleGuests`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(movingGuests),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => console.log(data));
+  };
+
   const handleCheckboxChange = (event, guest) => {
     const { checked } = event.target;
     if (checked) {
@@ -68,10 +80,18 @@ function ParkZoneTable({ zoneData, guestData }) {
         >
           Move Multiple Guests
         </button>
+        <button
+          style={{ width: "200px" }}
+          onClick={removeMultipleGuests}
+          disabled={movingGuests.length === 0}
+        >
+          Remove Multiple Guests
+        </button>
       </div>
       <div className="table-container">
         {zoneData.map((zone) => (
           <ZoneTable
+          key={zone.zoneId}
             zone={zone}
             guestData={guestData}
             movingGuests={movingGuests}

@@ -18,8 +18,8 @@ function ZoneTable({ zone, guestData, movingGuests, selectedGuest, setSelectedGu
       <strong className="zone-header">{zone.zoneName}</strong>
 
       <ul className="guest-list">
-        {guestsInZone.map((guest, index) => (
-          <GuestCell guest={guest} index={index} movingGuests={movingGuests} selectedGuest={selectedGuest} setSelectedGuest={setSelectedGuest} handleCheckboxChange={handleCheckboxChange}  />
+        {guestsInZone.map((guest) => (
+          <GuestCell key={guest.guestId} guest={guest} guestData={guestData} movingGuests={movingGuests} selectedGuest={selectedGuest} setSelectedGuest={setSelectedGuest} handleCheckboxChange={handleCheckboxChange}  />
         ))}
       </ul>
     </div>

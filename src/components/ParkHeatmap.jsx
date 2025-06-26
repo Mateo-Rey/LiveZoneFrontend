@@ -576,10 +576,6 @@ export default function ParkHeatmap({ guestData = [], zoneData = [] }) {
             ).toFixed(1)}
             %
           </div>
-          <div>
-            ⚠️ Threshold:{" "}
-            {((hoveredZone.threshold / hoveredZone.capacity) * 100).toFixed(1)}%
-          </div>
           <div
             style={{
               marginTop: 8,
@@ -621,23 +617,7 @@ export default function ParkHeatmap({ guestData = [], zoneData = [] }) {
             fontWeight: "bold",
           }}
         >
-          {debugMode ? "🔍 Hide Debug" : "🔍 Show Debug"}
-        </button>
-
-        <button
-          onClick={() => setShowPaths(!showPaths)}
-          style={{
-            background: showPaths ? "#ff8800" : "#8844ff",
-            color: "white",
-            border: "none",
-            padding: "8px 12px",
-            borderRadius: "6px",
-            cursor: "pointer",
-            fontSize: "12px",
-            fontWeight: "bold",
-          }}
-        >
-          {showPaths ? "🛤️ Hide Paths" : "🛤️ Show Paths"}
+          {debugMode ? "🔍 Hide Guests" : "🔍 Show Guests"}
         </button>
 
         <button

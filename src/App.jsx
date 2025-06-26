@@ -3,8 +3,8 @@ import "./App.css";
 import ZoneLineChart from "./components/ZoneLineChart";
 import ZoneBarChart from "./components/ZoneBarChart";
 import { safeJsonFetch } from "./utils/safeFetch";
-import ParkHeatmap from "./components/ParkHeatmap";
 import ParkDashboard from "./components/ParkDashboard";
+import { Outlet } from "@tanstack/react-router";
 function App() {
   const [zones, setZones] = useState([]);
   const [guests, setGuests] = useState([]);
@@ -310,6 +310,7 @@ function App() {
         </div>
         <ParkDashboard zoneData={zones} guestData={guests} />
       </section>
+      
     </>
   );
 }

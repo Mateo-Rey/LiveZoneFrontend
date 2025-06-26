@@ -330,6 +330,6 @@ input:focus {
 }
 .guest-row p {
   color: white !important;
-  position: relative; /* or absolute if needed */
-  cursor: grab;
+  
+  
 }

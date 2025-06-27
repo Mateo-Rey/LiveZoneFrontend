@@ -1,35 +1,74 @@
 #root {
   margin: 0 auto;
   text-align: center;
-}
-
-nav {
   display: flex;
   flex-direction: column;
-  height: 45vh;
+  align-items: center;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 70vh;
   padding: 1rem;
-  gap: 1rem;
+}
+
+.link-container {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  gap: 10px;
+  margin: 10px auto;
+  background: rgb(10, 10, 10);
+  width: 150px;
+  border-radius: 5px;
 }
 
 .info-wrapper {
   flex: 1; /* Takes all available vertical space above the buttons */
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 1rem;
+  margin-bottom: 1rem;
   overflow: auto; /* In case content overflows */
 }
 
 .info-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
   column-gap: 1vw;
+  grid-template-columns: 1fr 1fr;
   row-gap: 1vh;
   overflow-y: scroll;
   padding: 1rem;
+  margin-right: 1.5rem;
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
+}
+
+@media only screen and (min-width: 1500px) {
+  .info-wrapper {
+    grid-template-columns: 1fr 1fr;
+  }
+  nav {
+    height: 45vh;
+  }
+}
+
+@media only screen and (min-width: 2400px) {
+  .info-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .info-wrapper {
+    grid-template-columns: 1fr 1fr;
+  }
+  nav {
+    height: 45vh;
+  }
 }
 
 .info-card {
@@ -46,7 +85,9 @@ nav {
   -webkit-backdrop-filter: blur(8px);
   border: 2px solid rgba(255, 255, 255, 0.35);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
 }
 .info-card > * {
   margin: 0;
@@ -99,7 +140,7 @@ nav {
 .chart-container {
   align-items: center;
   display: flex;
-  width: 100%;
+  width: 100vw;
   gap: 2vw;
 }
 
@@ -126,7 +167,9 @@ input {
   background-color: #2c2c2c;
   border: 1px solid #444;
   border-radius: 0.5rem;
-  transition: border 0.2s, box-shadow 0.2s;
+  transition:
+    border 0.2s,
+    box-shadow 0.2s;
   outline: none;
 }
 
@@ -145,7 +188,9 @@ input {
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  transition: border 0.3s, background 0.3s;
+  transition:
+    border 0.3s,
+    background 0.3s;
   color: white;
 }
 
@@ -218,7 +263,9 @@ input:focus {
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.35);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
 }
 
 .zone-card input,
@@ -232,7 +279,8 @@ input:focus {
   background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.5),
     inset 0 -1px 0 rgba(255, 255, 255, 0.1),
     inset 0 0 30px 10px rgba(255, 255, 255, 0.8);
@@ -330,6 +378,4 @@ input:focus {
 }
 .guest-row p {
   color: white !important;
-  
-  
 }

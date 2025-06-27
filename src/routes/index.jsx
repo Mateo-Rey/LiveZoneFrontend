@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { useParkData } from "../context/ParkDataContext";
 import ZoneLineChart from "../components/ZoneLineChart";
@@ -70,15 +70,15 @@ function App() {
 
   const getAverageStay = () => {
     if (!selectedZone) return;
-    safeJsonFetch(`http://localhost:8080/zones/averageTimeSpent/${selectedZone}`).then(
-      (data) => {
-        setAverageStay(data);
-        setOccupancyData(null);
-        setTimeout(() => {
-          setAverageStay(null);
-        }, 5000);
-      }
-    );
+    safeJsonFetch(
+      `http://localhost:8080/zones/averageTimeSpent/${selectedZone}`
+    ).then((data) => {
+      setAverageStay(data);
+      setOccupancyData(null);
+      setTimeout(() => {
+        setAverageStay(null);
+      }, 5000);
+    });
   };
 
   // Change zone capacity on enter key press
@@ -111,82 +111,80 @@ function App() {
   return (
     <>
       <header>
-        <nav>
-          <div className="info-wrapper">
-            <div className="info-container">
-              {zones?.map((zone) => (
-                <div
-                  key={zone.zoneId}
-                  onClick={() => setSelectedZone(zone.zoneId)}
-                  className={
-                    "info-card" + (zone.zoneId === selectedZone ? " active-card" : "")
-                  }
-                >
-                  <h3>{zone.zoneName}</h3>
-                  <p>{"Zone " + zone.zoneId}</p>
-                  <div style={{ display: "flex", alignSelf: "center" }}>
-                    <div className={`status-dot ${zone.status}`}></div>
-                    <p style={{ display: "flex", alignSelf: "center" }}>
-                      {zone.currentGuestCount}/{zone.capacity}
-                    </p>
-                  </div>
+        <div className="info-wrapper">
+          <div className="info-container">
+            {zones?.map((zone) => (
+              <div
+                key={zone.zoneId}
+                onClick={() => setSelectedZone(zone.zoneId)}
+                className={
+                  "info-card" +
+                  (zone.zoneId === selectedZone ? " active-card" : "")
+                }
+              >
+                <h3>{zone.zoneName}</h3>
+                <p>{"Zone " + zone.zoneId}</p>
+                <div style={{ display: "flex", alignSelf: "center" }}>
+                  <div className={`status-dot ${zone.status}`}></div>
+                  <p style={{ display: "flex", alignSelf: "center" }}>
+                    {zone.currentGuestCount}/{zone.capacity}
+                  </p>
                 </div>
-              ))}
-            </div>
-
-            <div className="info-container">
-              {guests?.map((guest) => (
-                <div key={guest.guestId} className="info-card">
-                  <h3>In Zone {guest.currentZoneId}</h3>
-                  <p>{guest.guestId}</p>
-                </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
 
-          <div>
-            <button onClick={() => setPaused(!paused)}>
-              {paused ? "Start Chart Stream" : "Pause Chart Stream"}
-            </button>
+          <div className="info-container">
+            {guests?.map((guest) => (
+              <div key={guest.guestId} className="info-card">
+                <h3>In Zone {guest.currentZoneId}</h3>
+                <p>{guest.guestId}</p>
+              </div>
+            ))}
+          </div>
+        </div>
 
-            <h3>
-              Click on a zone above to view its occupancy status, average stay
-              time, or change its capacity
-            </h3>
+        <div>
+          <button onClick={() => setPaused(!paused)}>
+            {paused ? "Start Chart Stream" : "Pause Chart Stream"}
+          </button>
 
-            <div className="button-container">
-              {selectedZone && (
-                <>
-                  <button onClick={getOccupancyInfo}>View Occupancy Status</button>
-                  <button onClick={getAverageStay}>View Average Stay Time</button>
-                  <input
-                    onKeyDown={changeZoneCapacity}
-                    placeholder="Press enter to change cap"
-                  />
-                </>
-              )}
-            </div>
+          <h3>
+            Click on a zone above to view its occupancy status, average stay
+            time, or change its capacity
+          </h3>
 
-            {occupancyData && (
-              <p>
-                {occupancyData.zoneName + " is currently " + occupancyData.status}
-              </p>
+          <div className="button-container">
+            {selectedZone && (
+              <>
+                <button onClick={getOccupancyInfo}>
+                  View Occupancy Status
+                </button>
+                <button onClick={getAverageStay}>View Average Stay Time</button>
+                <input
+                  onKeyDown={changeZoneCapacity}
+                  placeholder="Press enter to change cap"
+                />
+              </>
             )}
-            {averageStay && <p>{averageStay}</p>}
-            <p>{jsonResponse}</p>
           </div>
-        </nav>
+
+          {occupancyData && (
+            <p>
+              {occupancyData.zoneName + " is currently " + occupancyData.status}
+            </p>
+          )}
+          {averageStay && <p>{averageStay}</p>}
+          <p>{jsonResponse}</p>
+        </div>
       </header>
 
       <section className="main-body">
         <div className="chart-container">
-          <div style={{ width: "100%", height: "100%" }}>
-            <ZoneLineChart data={zoneHistory} />
-          </div>
-          <div style={{ width: "100%", height: "100%" }}>
-            <ZoneBarChart data={durations} />
-          </div>
-        </div> 
+          <ZoneLineChart data={zoneHistory} />
+
+          <ZoneBarChart data={durations} />
+        </div>
       </section>
     </>
   );

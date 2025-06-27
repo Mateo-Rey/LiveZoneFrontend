@@ -14,11 +14,10 @@ export default class ZoneBarChart extends PureComponent {
     ];
     return (
       <>
-      <h2>Low and Average Duration in Each Zone</h2>
-      <ResponsiveContainer width={1200} height={550}>
+      {/* <h2>Low and Average Duration in Each Zone</h2> */}
+      <ResponsiveContainer height={600}>
         <BarChart
-          width={500}
-          height={300}
+          
           data={data}
           margin={{
             top: 5,
